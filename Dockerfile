@@ -5,14 +5,14 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 更换源并安装基本工具
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.sjtu.edu.cn/ubuntu/|g' /etc/apt/sources.list && \
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirror.zju.edu.cn/ubuntu/|g' /etc/apt/sources.list && \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
     build-essential sudo cmake git wget unzip pkg-config software-properties-common \
-    libtbb-dev libtbb2 libboost-dev libspdlog-dev\
+    libtbb-dev libtbb2 libboost-dev libspdlog-dev \
     python3 python3-pip python3-venv python3-dev \
     libjpeg-dev libpng-dev libtiff-dev libavcodec-dev libavformat-dev libswscale-dev \
-    libv4l-dev libxvidcore-dev libx264-dev libgtk-3-dev libatlas-base-dev gfortran \
+    libv4l-dev libxvidcore-dev libx264-dev libgtk-3-dev libatlas-base-dev gfortran && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 下载并编译OpenCV
@@ -51,13 +51,13 @@ RUN git clone --recursive https://github.com/FireWolves/mcerl.git
 WORKDIR /home/$USERNAME/mcerl
 
 # 切换到最新分支
-RUN git checkout with_distance
+RUN git checkout dev/train
 
 # 创建并激活virtualenv，安装依赖
 RUN python3 -m venv .venv && \
     . .venv/bin/activate && \
-    pip install -i https://mirror.sjtu.edu.cn/pypi/web/simple pip -U && \
-    pip config set global.index-url https://mirror.sjtu.edu.cn/pypi/web/simple && \
+    pip install -i https://mirror.zju.edu.cn/pypi/web/simple pip -U && \
+    pip config set global.index-url https://mirror.zju.edu.cn/pypi/web/simple && \
     grep -v "git" requirements.txt > requirements_no_git.txt && \
     PIP_MAX_PARALLEL_DOWNLOADS=10 pip install --no-cache-dir -r requirements_no_git.txt --extra-index-url https://download.pytorch.org/whl/cu124 && \
     rm requirements_no_git.txt && \

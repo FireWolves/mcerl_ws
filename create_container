@@ -1,0 +1,13 @@
+docker run -itd \
+  -e DISPLAY \
+  --runtime=nvidia \
+  --gpus all \
+  -v "/tmp/.X11-unix:/tmp/.X11-unix" \
+  -v "/home/wwd/.Xauthority:/home/developer/.Xauthority" \
+  -e XAUTHORITY=/home/developer/.Xauthority \
+  --name "mcerl-dev" \
+  --network  host \
+  --privileged \
+  --security-opt seccomp=unconfined \
+  -v /home/wwd/.ssh:/home/developer/.ssh:ro \
+  mcerl
