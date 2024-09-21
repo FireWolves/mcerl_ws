@@ -25,7 +25,6 @@ RUN cd /opt && \
     cmake -D CMAKE_BUILD_TYPE=Release \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D OPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib/modules \
-    -D WITH_TBB=ON \
     -D BUILD_EXAMPLES=ON .. && \
     make -j$(nproc) && \
     make install && \
